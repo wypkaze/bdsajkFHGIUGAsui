@@ -87,7 +87,7 @@ def main():
 
     # Resolve model identifier. Accepts:
     #   - bare HF Hub IDs ("meta-llama/Meta-Llama-3-8B",
-    #     "mistralai/Mistral-7B-Instruct-v0.3", ...)
+    #     "mistralai/Mistral-7B-Instruct-v0.2", ...)
     #   - "huggingface://<org>/<name>" for explicit snapshot_download
     #   - local filesystem paths
     model_name = download_model_from_huggingface(args.model_name)

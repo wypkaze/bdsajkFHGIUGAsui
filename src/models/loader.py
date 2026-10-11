@@ -27,7 +27,7 @@ def download_model_from_huggingface(model_name: str) -> str:
 
     Examples of valid ``model_name`` values:
       - "meta-llama/Meta-Llama-3-8B"              (native HF ID, gated: needs --access_token)
-      - "mistralai/Mistral-7B-Instruct-v0.3"      (alternative 7B instruct model)
+      - "mistralai/Mistral-7B-Instruct-v0.2"      (alternative 7B instruct model)
       - "huggingface://meta-llama/Meta-Llama-3-8B" (force pre-download)
       - "./local_model_dir"                        (already-downloaded local path)
 

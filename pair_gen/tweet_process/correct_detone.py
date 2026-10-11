@@ -70,14 +70,13 @@ def parse_arguments():
     p.add_argument('--gpu_id', type=int, default=0, help='GPU ID')
     # Base model. Alternatives:
     #   - "meta-llama/Meta-Llama-3-8B"          (default, gated on HF Hub)
-    #   - "mistralai/Mistral-7B-Instruct-v0.3"  (Mistral 7B instruct, 128k ctx)
     #   - "mistralai/Mistral-7B-Instruct-v0.2"  (Mistral 7B instruct, 32k ctx)
     # Native HF Hub IDs are resolved by `transformers.from_pretrained`; prefix with
     # "huggingface://" to force an explicit snapshot_download first.
     p.add_argument('--base_model', type=str,
                    default='meta-llama/Meta-Llama-3-8B',
                    help='Untrained base model (native HF Hub ID or huggingface:// URI). '
-                        'Alternative: mistralai/Mistral-7B-Instruct-v0.3')
+                        'Alternative: mistralai/Mistral-7B-Instruct-v0.2')
     p.add_argument('--batch_size', type=int, default=8, help='Generation batch size')
     p.add_argument('--max_new_tokens', type=int, default=128, help='Max new tokens per rewrite')
     p.add_argument('--data_dir', type=str, default=str(DEFAULT_DATA_DIR))
