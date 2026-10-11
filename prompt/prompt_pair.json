@@ -1,0 +1,26 @@
+{
+    "citation": {
+        "retrieval_history": "Paper Title: {title}\n",
+        "profile_prompt": "### Anchor User History:\n{}\n### User Instruction:\nFor a researcher who published the paper '{}', which paper from the anchor user's history above would this researcher most likely cite? Just answer with the paper title without any explanation.\nAnswer:"
+    },
+    "movie_tagging": {
+        "retrieval_history": "Description: {description} Tag: {tag}\n",
+        "profile_prompt": "### Anchor User History:\n{}\n### User Instruction:\nWhich tag does this movie relate to among the following tags? Just answer with the tag name without further explanation. tags: [sci-fi, based on a book, comedy, action, twist ending, dystopia, dark comedy, classic, psychology, fantasy, romance, thought-provoking, social commentary, violence, true story]\nDescription: {} Tag:"
+    },
+    "news_headline": {
+        "retrieval_history": "Article: {text} Headline: {title}\n",
+        "profile_prompt": "### Anchor User History:\n{}\n### User Instruction:\nGenerate a headline for the following article.\nArticle: {} Headline:"
+    },
+    "product_rating": {
+        "retrieval_history": "Review: {text} Score: {score}\n",
+        "profile_prompt": "### Anchor User History:\n{}\n### User Instruction:\nWhat is the score of the following review on a scale of 1 to 5? just answer with 1, 2, 3, 4, or 5 without further explanation.\nReview: {} Score:"
+    },
+    "scholarly_title": {
+        "retrieval_history": "abstract: {abstract} title: {title}\n",
+        "profile_prompt": "### Anchor User History:\n{}\n### User Instruction:\nGenerate a title for the following abstract of a paper.\nAbstract: {} Title:"
+    },
+    "tweet_paraphrase": {
+        "retrieval_history": "Tweet: {text}\n",
+        "profile_prompt": "### Anchor User History:\n{}\n### User Instruction:\nRephrase the following text into a tweet in the style of the anchor user above. Use their same tone, punctuation, capitalization, and wording. Just answer with the rephrased tweet without any explanation.\nText: {} Tweet:"
+    }
+}

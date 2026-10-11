@@ -1,0 +1,42 @@
+# ---- Python bytecode / caches ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# ---- packaging / build ----
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ---- virtual envs ----
+.venv/
+venv/
+env/
+
+# ---- tooling caches ----
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# ---- logs ----
+*.log
+
+# ---- runtime artifacts produced by the pipeline ----
+# (models, checkpoints, precompute records, datasets)
+ckpts/
+records/
+PAPPO_record/
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.gguf
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
