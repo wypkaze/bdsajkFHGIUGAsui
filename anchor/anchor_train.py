@@ -49,6 +49,7 @@ from src.data import (
     AnchorUserLoader,
 )
 from src.training import AnchorTrainer
+from src.models import download_model_from_huggingface
 
 
 def load_prompt_template(prompt_dir: str) -> dict:
@@ -84,12 +85,14 @@ def main():
     # ========== Step 1: Load tokenizer ==========
     logger.info("Loading tokenizer...")
 
-    # Handle ModelScope download
-    model_name = args.model_name
-    if model_name.startswith("modelscope://"):
-        from modelscope import snapshot_download
-        model_name = snapshot_download(model_name.replace("modelscope://", ""))
-        logger.info(f"ModelScope model downloaded to: {model_name}")
+    # Resolve model identifier. Accepts:
+    #   - bare HF Hub IDs ("meta-llama/Meta-Llama-3-8B",
+    #     "mistralai/Mistral-7B-Instruct-v0.3", ...)
+    #   - "huggingface://<org>/<name>" for explicit snapshot_download
+    #   - local filesystem paths
+    model_name = download_model_from_huggingface(args.model_name)
+    if model_name != args.model_name:
+        logger.info(f"HuggingFace model resolved to: {model_name}")
 
     tokenizer = AutoTokenizer.from_pretrained(
         model_name,

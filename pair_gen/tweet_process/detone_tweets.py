@@ -52,7 +52,7 @@ from src.pipeline.common import (
     out_dir_for,
 )
 from src.generation.generator import batch_generate_raw
-from src.models.loader import download_model_from_modelscope
+from src.models.loader import download_model_from_huggingface
 from src.utils.text_utils import split_batch
 
 
@@ -61,9 +61,16 @@ def parse_arguments():
     p.add_argument('--task_name', type=str, default='tweet_paraphrase',
                    help='Only tweet_paraphrase is supported')
     p.add_argument('--gpu_id', type=int, default=0, help='GPU ID')
+    # Base model. Alternatives:
+    #   - "meta-llama/Meta-Llama-3-8B"          (default, gated on HF Hub)
+    #   - "mistralai/Mistral-7B-Instruct-v0.3"  (Mistral 7B instruct, 128k ctx)
+    #   - "mistralai/Mistral-7B-Instruct-v0.2"  (Mistral 7B instruct, 32k ctx)
+    # Native HF Hub IDs are resolved by `transformers.from_pretrained`; prefix with
+    # "huggingface://" to force an explicit snapshot_download first.
     p.add_argument('--base_model', type=str,
-                   default='modelscope://LLM-Research/Meta-Llama-3-8B',
-                   help='Untrained base model (modelscope:// URI resolved at runtime)')
+                   default='meta-llama/Meta-Llama-3-8B',
+                   help='Untrained base model (native HF Hub ID or huggingface:// URI). '
+                        'Alternative: mistralai/Mistral-7B-Instruct-v0.3')
     p.add_argument('--batch_size', type=int, default=8, help='Generation batch size')
     p.add_argument('--max_new_tokens', type=int, default=128, help='Max new tokens per rewrite')
     p.add_argument('--data_dir', type=str, default=str(DEFAULT_DATA_DIR))
@@ -143,7 +150,7 @@ def main():
         return
 
     # --- Load UNTRAINED base llama in FULL precision bf16 (no quantization) ---
-    model_path = download_model_from_modelscope(args.base_model)
+    model_path = download_model_from_huggingface(args.base_model)
     print(f"Loading base model (bf16, no quant): {model_path}")
     tokenizer = AutoTokenizer.from_pretrained(
         model_path, trust_remote_code=True, padding_side="left", use_fast=True,

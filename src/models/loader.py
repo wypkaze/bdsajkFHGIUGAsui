@@ -10,21 +10,39 @@ from transformers import (
 )
 
 
-def download_model_from_modelscope(model_name: str) -> str:
+# Prefix for explicit HuggingFace Hub URIs. Bare HF IDs (e.g. "meta-llama/Meta-Llama-3-8B")
+# also work and are passed straight through to `from_pretrained`.
+HF_URI_PREFIX = "huggingface://"
+
+
+def download_model_from_huggingface(model_name: str) -> str:
     """
-    Download model from ModelScope if using modelscope:// prefix.
-    
+    Resolve a model identifier to a local path via HuggingFace Hub.
+
+    Two forms are accepted:
+      1. ``huggingface://<org>/<name>``  -> explicitly pre-downloaded with
+         ``huggingface_hub.snapshot_download`` and the local cache path is returned.
+      2. Bare HF ID (``<org>/<name>``) or a local filesystem path -> returned as-is;
+         ``transformers`` will resolve/download it lazily when ``from_pretrained`` runs.
+
+    Examples of valid ``model_name`` values:
+      - "meta-llama/Meta-Llama-3-8B"              (native HF ID, gated: needs --access_token)
+      - "mistralai/Mistral-7B-Instruct-v0.3"      (alternative 7B instruct model)
+      - "huggingface://meta-llama/Meta-Llama-3-8B" (force pre-download)
+      - "./local_model_dir"                        (already-downloaded local path)
+
     Args:
-        model_name: Model name, potentially with 'modelscope://' prefix
-    
+        model_name: Model identifier, optionally prefixed with ``huggingface://``.
+
     Returns:
-        Local path to downloaded model or original name if not from ModelScope
+        Local path to the downloaded model, or ``model_name`` unchanged when no
+        explicit pre-download is requested.
     """
-    if model_name.startswith("modelscope://"):
-        from modelscope.hub.snapshot_download import snapshot_download
-        print("Downloading model from ModelScope...")
-        ms_model_name = model_name[13:]  # Remove 'modelscope://' prefix
-        model_path = snapshot_download(ms_model_name)
+    if model_name.startswith(HF_URI_PREFIX):
+        from huggingface_hub import snapshot_download
+        print("Downloading model from HuggingFace Hub...")
+        hf_model_name = model_name.removeprefix(HF_URI_PREFIX)
+        model_path = snapshot_download(repo_id=hf_model_name)
         print(f"Model downloaded to: {model_path}")
         return model_path
     return model_name
@@ -76,8 +94,8 @@ def load_model(
     """
     print("Loading tokenizer and model...")
     
-    # Handle ModelScope download
-    model_path = download_model_from_modelscope(model_name)
+    # Handle optional huggingface:// URI (bare HF IDs pass through unchanged)
+    model_path = download_model_from_huggingface(model_name)
     
     # Create quantization config
     quantization_config = None

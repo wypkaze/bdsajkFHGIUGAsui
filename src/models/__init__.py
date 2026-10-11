@@ -7,12 +7,12 @@ This module provides functions for:
 - Model preparation for training
 """
 
-from .loader import load_model, download_model_from_modelscope
+from .loader import load_model, download_model_from_huggingface
 from .lora_config import create_lora_config, apply_lora_to_model
 
 __all__ = [
     'load_model',
-    'download_model_from_modelscope',
+    'download_model_from_huggingface',
     'create_lora_config',
     'apply_lora_to_model',
 ]

@@ -21,11 +21,18 @@ def create_anchor_train_parser() -> argparse.ArgumentParser:
     )
 
     # Model parameters
+    # Base model. Alternatives:
+    #   - "meta-llama/Meta-Llama-3-8B"          (default, gated on HF Hub: pass --access_token)
+    #   - "mistralai/Mistral-7B-Instruct-v0.3"  (Mistral 7B instruct, 128k ctx)
+    #   - "mistralai/Mistral-7B-Instruct-v0.2"  (Mistral 7B instruct, 32k ctx)
+    # Native HF Hub IDs are resolved by `transformers.from_pretrained`; prefix with
+    # "huggingface://" to force an explicit snapshot_download first.
     parser.add_argument(
         '--model_name',
         type=str,
-        default='modelscope://LLM-Research/Meta-Llama-3-8B',
-        help='Base model name or path (supports modelscope:// prefix)'
+        default='meta-llama/Meta-Llama-3-8B',
+        help='Base model name or path (native HF Hub ID or huggingface:// URI). '
+             'Alternative: mistralai/Mistral-7B-Instruct-v0.3'
     )
     parser.add_argument(
         '--task_lora_path',
@@ -226,11 +233,18 @@ def create_pair_gen_parser() -> argparse.ArgumentParser:
     )
 
     # Model parameters
+    # Base model. Alternatives:
+    #   - "meta-llama/Meta-Llama-3-8B"          (default, gated on HF Hub: pass --access_token)
+    #   - "mistralai/Mistral-7B-Instruct-v0.3"  (Mistral 7B instruct, 128k ctx)
+    #   - "mistralai/Mistral-7B-Instruct-v0.2"  (Mistral 7B instruct, 32k ctx)
+    # Native HF Hub IDs are resolved by `transformers.from_pretrained`; prefix with
+    # "huggingface://" to force an explicit snapshot_download first.
     parser.add_argument(
         '--model_name',
         type=str,
-        default='modelscope://LLM-Research/Meta-Llama-3-8B',
-        help='Base model name or path (supports modelscope:// prefix)'
+        default='meta-llama/Meta-Llama-3-8B',
+        help='Base model name or path (native HF Hub ID or huggingface:// URI). '
+             'Alternative: mistralai/Mistral-7B-Instruct-v0.3'
     )
     parser.add_argument(
         '--task_lora_path',
